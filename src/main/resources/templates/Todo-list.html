@@ -55,12 +55,16 @@
 				    <td class="todo" th:if="${account.userId == todo.userId}">
 						<button>更新</button>
 					</td>
+					<td class="todo" th:unless="${account.userId == todo.userId}">
+					</td>
 				</form>
 				<td class="todo" th:if="${account.userId == todo.userId}">
 					<form method="post" th:action="@{/todo/delete/{id}(id=*{id})}" >
 						<button>削除</button>
 					</form>
 				</td>
+				<td class="todo" th:unless="${account.userId == todo.userId}">
+					</td>
 				<td>
 					<div class="comment-box">
 				    	<div class="comment" th:each="comment : ${todo.comments}" th:object="${comment}">
@@ -114,11 +118,15 @@
 						<td class="todo" th:if="${account.userId == todo.userId}">
 							<button>更新</button>
 						</td>
+						<td class="todo" th:unless="${account.userId == todo.userId}">
+						</td>
 					 </form>
 					 <td class="todo" th:if="${account.userId == todo.userId}">
 					 	<form method="post" th:action="@{/todo/delete/{id}(id=*{id})}"  th:object="${todo}">
 						 	<button>削除</button>
 						</form>
+					</td>
+					<td class="todo" th:unless="${account.userId == todo.userId}">
 					</td>
 				</tr>
 			  </table>
