@@ -2,6 +2,7 @@ package com.todo.app.controller;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,14 +20,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.todo.app.entity.Comment;
 import com.todo.app.entity.Team;
 import com.todo.app.entity.Todo;
 import com.todo.app.entity.User;
+import com.todo.app.form.CommentForm;
 import com.todo.app.form.TodoForm;
 import com.todo.app.form.TodoSearchForm;
 import com.todo.app.model.Account;
+import com.todo.app.service.CommentService;
 import com.todo.app.service.TeamService;
 import com.todo.app.service.TodoService;
 import com.todo.app.service.UserService;
@@ -48,6 +53,9 @@ public class TodoController {
 	
 	@Autowired
 	TeamService teamService;
+	
+	@Autowired
+	CommentService commentService;
 
 	private static Map<Integer, String> statusMenumap = new HashMap<>();
     static {
@@ -70,6 +78,7 @@ public class TodoController {
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		List<TodoForm> forms = new ArrayList<>();
 		for (Todo todo:list) {
+			// Entityから表示用のFormに変換
 			TodoForm form = new TodoForm();
 			form.setId(todo.getId());
 			form.setTaskContent(todo.getTaskContent());
@@ -80,12 +89,25 @@ public class TodoController {
 			form.setTeamName(todo.getTeam().getTeamName());
 			
 			form.setTimeLimit(dateFormat.format(todo.getTimeLimit()));
+			List<CommentForm> commForms = new ArrayList<>();
+			List<Comment>comments = todo.getComments();
+			for (Comment comment:comments) {
+			
+				CommentForm commForm = new CommentForm();
+				commForm.setComment(comment.getComment());
+				commForm.setUserName(userService.findById(comment.getUserId()).getUserName());
+				commForm.setPostDate(comment.getPostDate());
+				commForms.add(commForm);
+			}
+			
+			form.setComments(commForms);;
 			forms.add(form);
 		}
 		model.addAttribute("todos",forms);
 		
 		List<TodoForm> doneForms = new ArrayList<>();
 		for (Todo todo:doneList) {
+			// Entityから表示用のFormに変換
 			TodoForm form = new TodoForm();
 			form.setId(todo.getId());
 			form.setTaskContent(todo.getTaskContent());
@@ -96,6 +118,18 @@ public class TodoController {
 			form.setTeamName(todo.getTeam().getTeamName());
 			
 			form.setTimeLimit(dateFormat.format(todo.getTimeLimit()));
+			List<CommentForm> commForms = new ArrayList<>();
+			List<Comment>comments = todo.getComments();
+			for (Comment comment:comments) {
+			
+				CommentForm commForm = new CommentForm();
+				commForm.setComment(comment.getComment());
+				commForm.setUserName(userService.findById(comment.getUserId()).getUserName());
+				commForm.setPostDate(comment.getPostDate());
+				commForms.add(commForm);
+			}
+			
+			form.setComments(commForms);
 			doneForms.add(form);
 		}
 		
@@ -191,5 +225,21 @@ public class TodoController {
 		updateList(list, doneList, model);
 	    
 		return "Todo-list";
+	}
+	
+	// 検索実行
+	@PostMapping("/comment-add/{id}")
+	public String commentAdd(
+			@PathVariable Long id, 
+			@RequestParam String comment, Model model) {
+		
+		Comment commentObj = new Comment();
+		commentObj.setComment(comment);
+		commentObj.setTodoId(id);
+		commentObj.setUserId(account.getUserId());
+		commentObj.setPostDate(Date.valueOf(LocalDate.now()));
+		
+		commentService.add(commentObj);
+		return "redirect:/todo/list";
 	}
 }

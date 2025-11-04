@@ -31,6 +31,7 @@
 				<th class="todo">終了予定日</th>
 				<th class="todo">更新</th>
 				<th class="todo">削除</th>
+				<th class="todo">コメント</th>
 			</tr>
 			<tr class="todo" th:each="todo : ${todos}" th:object="${todo}">
 			  	<form method="post" th:action="@{/todo/update/{id}(id=*{id})}" >
@@ -60,7 +61,21 @@
 						<button>削除</button>
 					</form>
 				</td>
-				
+				<td>
+					<div class="comment-box">
+				    	<div class="comment" th:each="comment : ${todo.comments}" th:object="${comment}">
+				       		<div class="comment-user" th:text="*{userName}"></div>
+				      		<div class="comment-date" th:text="*{#dates.format(postDate, 'yyyy/MM/dd HH:mm:ss')}"></div>
+				     		<div th:text="*{comment}"></div>
+				    	</div>
+				      	<div class="comment-form">
+							<form method="POST" th:action="@{/todo/comment-add/{id}(id=*{id})}">
+				       			<textarea name="comment" placeholder="コメントを入力..."></textarea>
+				  				<button>送信</button>
+							</form>
+				        </div>
+				    </div>
+				</td>
 		  	</tr>
 		  </table>
 	  	</div>

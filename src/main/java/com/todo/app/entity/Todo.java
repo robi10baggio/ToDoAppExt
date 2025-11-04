@@ -1,6 +1,7 @@
 package com.todo.app.entity;
 
 import java.sql.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,12 +10,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import lombok.Data;
 
 @Entity
-@Table(name="todo_items")
+@Table(name="todos")
 @Data
 public class Todo {
 	@Id
@@ -28,6 +30,7 @@ public class Todo {
 	
 	@Column(name="time_limit", nullable = false)
 	private Date timeLimit;
+	
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
@@ -35,4 +38,8 @@ public class Todo {
 	@ManyToOne
 	@JoinColumn(name="team_id")
 	private Team team;
+	
+	@OneToMany
+	@JoinColumn(name="todo_id")
+	private List<Comment> comments;
 }

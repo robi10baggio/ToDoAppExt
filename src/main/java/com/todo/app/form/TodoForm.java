@@ -1,6 +1,8 @@
 package com.todo.app.form;
 
 
+import java.util.List;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
@@ -8,19 +10,21 @@ import lombok.Data;
 
 @Data
 public class TodoForm {
-	public Long id;
+	private Long id;
 	
     @Size(min = 1, max = 200, message = "{0}は{1}文字以上{2}文字以下で入力してください。")
-	public String taskContent;
+    private String taskContent;
 	
-	public Integer status;
+    private Integer status;
 	
 	@NotEmpty
-	public String timeLimit;
+	private String timeLimit;
 	
 	private Long userId;
 	private String userName;
 	
 	private Long teamId;
 	private String teamName;
+	
+	private List<CommentForm> comments;
 }
