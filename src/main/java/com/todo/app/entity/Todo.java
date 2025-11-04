@@ -28,8 +28,8 @@ public class Todo {
 	
 	private Integer status;
 	
-	@Column(name="time_limit", nullable = false)
-	private Date timeLimit;
+	@Column(name="due_date", nullable = false)
+	private Date dueDate;
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")

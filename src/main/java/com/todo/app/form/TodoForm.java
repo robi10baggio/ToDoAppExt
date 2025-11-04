@@ -18,7 +18,7 @@ public class TodoForm {
     private Integer status;
 	
 	@NotEmpty
-	private String timeLimit;
+	private String dueDate;
 	
 	private Long userId;
 	private String userName;

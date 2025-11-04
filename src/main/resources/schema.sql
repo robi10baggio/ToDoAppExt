@@ -21,7 +21,7 @@ CREATE TABLE todos(
 	id 				SERIAL PRIMARY KEY,
 	task_content 	varchar(200) NOT NULL,
 	status	 		int default 0,
-	time_limit 		date  NOT NULL,
+	due_date 		date  NOT NULL,
 	user_id int 	REFERENCES users(id),
 	team_id int  	REFERENCES teams(id)
 );

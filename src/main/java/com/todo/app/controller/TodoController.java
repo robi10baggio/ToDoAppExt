@@ -88,7 +88,7 @@ public class TodoController {
 			form.setTeamId(todo.getTeam().getId());
 			form.setTeamName(todo.getTeam().getTeamName());
 			
-			form.setTimeLimit(dateFormat.format(todo.getTimeLimit()));
+			form.setDueDate(dateFormat.format(todo.getDueDate()));
 			List<CommentForm> commForms = new ArrayList<>();
 			List<Comment>comments = todo.getComments();
 			for (Comment comment:comments) {
@@ -117,7 +117,7 @@ public class TodoController {
 			form.setTeamId(todo.getTeam().getId());
 			form.setTeamName(todo.getTeam().getTeamName());
 			
-			form.setTimeLimit(dateFormat.format(todo.getTimeLimit()));
+			form.setDueDate(dateFormat.format(todo.getDueDate()));
 			List<CommentForm> commForms = new ArrayList<>();
 			List<Comment>comments = todo.getComments();
 			for (Comment comment:comments) {
@@ -165,7 +165,7 @@ public class TodoController {
 		}
 		Todo todo = new Todo();
 		todo.setTaskContent(todoForm.getTaskContent());
-		todo.setTimeLimit(Date.valueOf(todoForm.getTimeLimit()));
+		todo.setDueDate(Date.valueOf(todoForm.getDueDate()));
 		todo.setStatus(0);
 		User user = userService.findById(account.getUserId()); 
 		Team team = teamService.findById(account.getTeamId());
@@ -186,7 +186,7 @@ public class TodoController {
 		Todo todo = new Todo();
 		todo.setId(id);
 		todo.setTaskContent(todoForm.getTaskContent());
-		todo.setTimeLimit(Date.valueOf(todoForm.getTimeLimit()));
+		todo.setDueDate(Date.valueOf(todoForm.getDueDate()));
 		
 		todo.setStatus(todoForm.getStatus());
 		User user = userService.findById(account.getUserId()); 
