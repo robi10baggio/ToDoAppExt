@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class TodoSearchForm {
 	private String keyword;
-	private String userName;
 	private Long userId;
+	private String userName;
 	private Integer status;
-	private String timeLimitFrom;
-	private String timeLimitTo;
+	private String dueDateFrom;
+	private String dueDateTo;
 }

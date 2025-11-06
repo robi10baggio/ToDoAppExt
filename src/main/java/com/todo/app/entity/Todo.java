@@ -1,6 +1,6 @@
 package com.todo.app.entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -29,7 +29,7 @@ public class Todo {
 	private Integer status;
 	
 	@Column(name="due_date", nullable = false)
-	private Date dueDate;
+	private LocalDate dueDate;
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")

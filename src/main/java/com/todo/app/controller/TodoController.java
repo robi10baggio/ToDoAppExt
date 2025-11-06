@@ -1,8 +1,8 @@
 package com.todo.app.controller;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -88,7 +88,7 @@ public class TodoController {
 			form.setTeamId(todo.getTeam().getId());
 			form.setTeamName(todo.getTeam().getTeamName());
 			
-			form.setDueDate(dateFormat.format(todo.getDueDate()));
+			form.setDueDate(todo.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			List<CommentForm> commForms = new ArrayList<>();
 			List<Comment>comments = todo.getComments();
 			for (Comment comment:comments) {
@@ -117,7 +117,7 @@ public class TodoController {
 			form.setTeamId(todo.getTeam().getId());
 			form.setTeamName(todo.getTeam().getTeamName());
 			
-			form.setDueDate(dateFormat.format(todo.getDueDate()));
+			form.setDueDate(todo.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			List<CommentForm> commForms = new ArrayList<>();
 			List<Comment>comments = todo.getComments();
 			for (Comment comment:comments) {
@@ -165,7 +165,7 @@ public class TodoController {
 		}
 		Todo todo = new Todo();
 		todo.setTaskContent(todoForm.getTaskContent());
-		todo.setDueDate(Date.valueOf(todoForm.getDueDate()));
+		todo.setDueDate(LocalDate.parse(todoForm.getDueDate()));
 		todo.setStatus(0);
 		User user = userService.findById(account.getUserId()); 
 		Team team = teamService.findById(account.getTeamId());
@@ -186,7 +186,7 @@ public class TodoController {
 		Todo todo = new Todo();
 		todo.setId(id);
 		todo.setTaskContent(todoForm.getTaskContent());
-		todo.setDueDate(Date.valueOf(todoForm.getDueDate()));
+		todo.setDueDate(LocalDate.parse(todoForm.getDueDate()));
 		
 		todo.setStatus(todoForm.getStatus());
 		User user = userService.findById(account.getUserId()); 
@@ -237,7 +237,7 @@ public class TodoController {
 		commentObj.setComment(comment);
 		commentObj.setTodoId(id);
 		commentObj.setUserId(account.getUserId());
-		commentObj.setPostDate(Date.valueOf(LocalDate.now()));
+		commentObj.setPostDate(LocalDate.now());
 		
 		commentService.add(commentObj);
 		return "redirect:/todo/list";

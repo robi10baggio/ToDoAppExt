@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -33,16 +34,17 @@ public class TodoService {
 	    spec = spec.and(TodoSpecifications.teamIdIs(teamId));
 
 	    spec = spec.and(TodoSpecifications.statusLessThan(2));
-	    if (form.getTimeLimitFrom() != null && !form.getTimeLimitFrom().isEmpty()) {
-	    	Date fromDate = Date.valueOf(form.getTimeLimitFrom());
+	    if (form.getDueDateFrom() != null && !form.getDueDateFrom().isEmpty()) {
+	    	Date fromDate = Date.valueOf(form.getDueDateFrom());
 	    	spec = spec.and(TodoSpecifications.dueDateAfter(fromDate));
 	    }
-	    if (form.getTimeLimitTo() != null && !form.getTimeLimitTo().isEmpty()) {
-	    	Date toDate = Date.valueOf(form.getTimeLimitFrom());
+	    if (form.getDueDateTo() != null && !form.getDueDateTo().isEmpty()) {
+	    	Date toDate = Date.valueOf(form.getDueDateTo());
 	    	spec = spec.and(TodoSpecifications.dueDateBefore(toDate));
 	    }
+	    Sort sort = Sort.by(Sort.Direction.ASC, "dueDate"); // 昇順ソート
 
-	    return todoRepository.findAll(spec);
+	    return todoRepository.findAll(spec, sort);
 	}
 	
 	public List<Todo> searchComplete(Long teamId,TodoSearchForm form) {
@@ -55,31 +57,32 @@ public class TodoService {
 	    if (form.getUserId() != null) {
 	    	spec = spec.and(TodoSpecifications.userIdIs(form.getUserId()));
 	    }
+	    spec = spec.and(TodoSpecifications.teamIdIs(teamId));
 
 	    spec = spec.and(TodoSpecifications.statusIs(2));
 
-	    if (form.getTimeLimitFrom() != null  && !form.getTimeLimitFrom().isEmpty()) {
-	    	Date fromDate = Date.valueOf(form.getTimeLimitFrom());
+	    if (form.getDueDateFrom() != null && !form.getDueDateFrom().isEmpty()) {
+	    	Date fromDate = Date.valueOf(form.getDueDateFrom());
 	    	spec = spec.and(TodoSpecifications.dueDateAfter(fromDate));
 	    }
-	    if (form.getTimeLimitTo() != null  && !form.getTimeLimitFrom().isEmpty()) {
-	    	Date toDate = Date.valueOf(form.getTimeLimitFrom());
+	    if (form.getDueDateTo() != null && !form.getDueDateTo().isEmpty()) {
+	    	Date toDate = Date.valueOf(form.getDueDateTo());
 	    	spec = spec.and(TodoSpecifications.dueDateBefore(toDate));
 	    }
-
-	    return todoRepository.findAll(spec);
+	    Sort sort = Sort.by(Sort.Direction.ASC, "dueDate"); // 昇順ソート
+	    return todoRepository.findAll(spec, sort);
 	}
 
 	public List<Todo> selectAll(){
-		return todoRepository.findAll();
+		return todoRepository.findAllByOrderByDueDate();
 	}
 
 	public List<Todo> selectIncomplete(long team_id) {
-		return todoRepository.findByStatusLessThanAndTeamId(2, team_id);
+		return todoRepository.findByStatusLessThanAndTeamIdOrderByDueDate(2, team_id);
 	}
 
 	public List<Todo> selectComplete(long team_id) {
-		return todoRepository.findByStatusEqualsAndTeamId(2, team_id);
+		return todoRepository.findByStatusEqualsAndTeamIdOrderByDueDate(2, team_id);
 	}
 
 	public void add(Todo todo) {

@@ -1,6 +1,6 @@
 package com.todo.app.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
@@ -18,15 +18,15 @@ public class TodoSpecifications {
 
 	public static Specification<Todo> userIdIs(Long userId) {
 		return (root, query, cb) -> {
-			Join<Todo, User> join = root.join("user", JoinType.INNER);
-			return cb.equal(root.get("id"),userId);
+			Join<Todo, User> userJoin = root.join("user", JoinType.INNER);
+			return cb.equal(userJoin.get("id"), userId);
 		};
 	}
 	
 	public static Specification<Todo> teamIdIs(Long teamId) {
 		return (root, query, cb) -> {
-			Join<Todo, Team> join = root.join("team", JoinType.INNER);
-			return cb.equal(root.get("id"), teamId);
+			Join<Todo, Team> userJoin = root.join("team", JoinType.INNER);
+			return cb.equal(userJoin.get("id"), teamId);
 		};
 	}
 
@@ -39,10 +39,10 @@ public class TodoSpecifications {
 	}
 
 	public static Specification<Todo> dueDateAfter(Date date) {
-		return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("timeLimit"), date);
+		return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("dueDate"), date);
 	}
 
 	public static Specification<Todo> dueDateBefore(Date date) {
-		return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("timeLimit"), date);
+		return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("dueDate"), date);
 	}
 }
