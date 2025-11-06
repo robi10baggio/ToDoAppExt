@@ -1,6 +1,5 @@
 package com.todo.app.controller;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -75,7 +74,6 @@ public class TodoController {
     }
     
     private void updateList(List<Todo> list, List<Todo> doneList, Model model) {
-    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		List<TodoForm> forms = new ArrayList<>();
 		for (Todo todo:list) {
 			// Entityから表示用のFormに変換
