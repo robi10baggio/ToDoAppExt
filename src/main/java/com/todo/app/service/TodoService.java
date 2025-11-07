@@ -1,6 +1,7 @@
 package com.todo.app.service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.transaction.Transactional;
@@ -23,54 +24,63 @@ public class TodoService {
 	
 	public List<Todo> searchIncomplete(Long teamId,TodoSearchForm form) {
 	    // 検索条件をもとにクエリを構築
-	    Specification<Todo> spec = Specification.where(null);
+	    List<Specification<Todo>> specs = new ArrayList<>();
 
 	    if (form.getKeyword() != null && !form.getKeyword().isEmpty()) {
-	    	spec = spec.and(TodoSpecifications.taskContains(form.getKeyword()));
+	    	specs.add(TodoSpecifications.taskContains(form.getKeyword()));
 	    }
 	    if (form.getUserId() != null) {
-	    	spec = spec.and(TodoSpecifications.userIdIs(form.getUserId()));
+	    	specs.add(TodoSpecifications.userIdIs(form.getUserId()));
 	    }
-	    spec = spec.and(TodoSpecifications.teamIdIs(teamId));
+	    specs.add(TodoSpecifications.teamIdIs(teamId));
 
-	    spec = spec.and(TodoSpecifications.statusLessThan(2));
+	    specs.add(TodoSpecifications.statusLessThan(2));
 	    if (form.getDueDateFrom() != null && !form.getDueDateFrom().isEmpty()) {
 	    	Date fromDate = Date.valueOf(form.getDueDateFrom());
-	    	spec = spec.and(TodoSpecifications.dueDateAfter(fromDate));
+	    	specs.add(TodoSpecifications.dueDateAfter(fromDate));
 	    }
 	    if (form.getDueDateTo() != null && !form.getDueDateTo().isEmpty()) {
 	    	Date toDate = Date.valueOf(form.getDueDateTo());
-	    	spec = spec.and(TodoSpecifications.dueDateBefore(toDate));
+	    	specs.add(TodoSpecifications.dueDateBefore(toDate));
 	    }
+	    
+	    Specification<Todo> finalSpec = specs.stream()
+	    	    .reduce(Specification::and)
+	    	    .orElse(null);
 	    Sort sort = Sort.by(Sort.Direction.ASC, "dueDate"); // 昇順ソート
-
-	    return todoRepository.findAll(spec, sort);
+	    
+	    return todoRepository.findAll(finalSpec, sort);
 	}
 	
 	public List<Todo> searchComplete(Long teamId,TodoSearchForm form) {
-	    // 検索条件をもとにクエリを構築
-	    Specification<Todo> spec = Specification.where(null);
+		 // 検索条件をもとにクエリを構築
+	    List<Specification<Todo>> specs = new ArrayList<>();
 
 	    if (form.getKeyword() != null && !form.getKeyword().isEmpty()) {
-	    	spec = spec.and(TodoSpecifications.taskContains(form.getKeyword()));
+	    	specs.add(TodoSpecifications.taskContains(form.getKeyword()));
 	    }
 	    if (form.getUserId() != null) {
-	    	spec = spec.and(TodoSpecifications.userIdIs(form.getUserId()));
+	    	specs.add(TodoSpecifications.userIdIs(form.getUserId()));
 	    }
-	    spec = spec.and(TodoSpecifications.teamIdIs(teamId));
+	    specs.add(TodoSpecifications.teamIdIs(teamId));
 
-	    spec = spec.and(TodoSpecifications.statusIs(2));
+	    specs.add(TodoSpecifications.statusIs(2));
 
 	    if (form.getDueDateFrom() != null && !form.getDueDateFrom().isEmpty()) {
 	    	Date fromDate = Date.valueOf(form.getDueDateFrom());
-	    	spec = spec.and(TodoSpecifications.dueDateAfter(fromDate));
+	    	specs.add(TodoSpecifications.dueDateAfter(fromDate));
 	    }
 	    if (form.getDueDateTo() != null && !form.getDueDateTo().isEmpty()) {
 	    	Date toDate = Date.valueOf(form.getDueDateTo());
-	    	spec = spec.and(TodoSpecifications.dueDateBefore(toDate));
+	    	specs.add(TodoSpecifications.dueDateBefore(toDate));
 	    }
+	    
+	    Specification<Todo> finalSpec = specs.stream()
+	    	    .reduce(Specification::and)
+	    	    .orElse(null);
+	    
 	    Sort sort = Sort.by(Sort.Direction.ASC, "dueDate"); // 昇順ソート
-	    return todoRepository.findAll(spec, sort);
+	    return todoRepository.findAll(finalSpec, sort);
 	}
 
 	public List<Todo> selectAll(){
