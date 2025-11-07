@@ -75,7 +75,7 @@ public class TodoController {
     
     private void updateList(List<Todo> list, List<Todo> doneList, Model model) {
 		List<TodoForm> forms = new ArrayList<>();
-		for (Todo todo:list) {
+		for (Todo todo: list) {
 			// Entityから表示用のFormに変換
 			TodoForm form = new TodoForm();
 			form.setId(todo.getId());
