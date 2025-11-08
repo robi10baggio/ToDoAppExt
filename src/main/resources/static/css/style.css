@@ -30,9 +30,10 @@ main {
 .search {
 	width:40%;
 }
+
 /* 入力欄のスタイル */
 input[type="text"],
-input[type="password"],
+input[type="password"], 
 input[type="date"] {
   width: 100%;
   padding: 12px;
@@ -54,7 +55,7 @@ button {
   font-size: 12px;
 }
 
-/* ボタンのスタイル */
+/* 検索ボタンのスタイル */
 button.search {
   width: 50pt;
   padding: 12px;
@@ -65,7 +66,6 @@ button.search {
   cursor: pointer;
   font-size: 12px;
 }
-
 button:hover {
   background-color: #005a9e;
 }
@@ -77,21 +77,22 @@ table.todo {
 	margin-bottom: 40px; 
 }
 
-th.todo, td.todo { 
+table.todo th , table.todo td{ 
 	padding: 12px;
 	border: 1px solid #ccc;
 	text-align: left;
 	vertical-align: top;
 }
 
-th.todo {
+table.todo th {
 	background-color: #0078D4;
 	color: white;
 }
 
-tr.todo:nth-child(even) { 
+table.todo tr:nth-child(even) { 
 	background-color: #f9f9f9; 
 }
+
 
 span.error {
 	display: block;
@@ -99,18 +100,6 @@ span.error {
 	margin-top: 0px;
 	margin-bottom: 10px;
 	font-size: 14px;
-}
-
-/* リンクのスタイル */
-a {
-  display: inline-block;
-  margin-top: 20px;
-  color: #0078D4;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
 }
 
 #コメントの表示
@@ -154,4 +143,15 @@ a:hover {
 .comment-form button:hover { 
 	background-color: #005a9e;
 }
-	
+
+/* リンクのスタイル */
+a {
+  display: inline-block;
+  margin-top: 20px;
+  color: #0078D4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
