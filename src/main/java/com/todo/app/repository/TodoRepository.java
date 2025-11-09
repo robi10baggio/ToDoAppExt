@@ -10,9 +10,9 @@ import com.todo.app.entity.Todo;
 public interface TodoRepository extends JpaRepository<Todo, Long>, JpaSpecificationExecutor<Todo> {
 	public List<Todo> findByStatusEquals(Integer status);
 	
-	public List<Todo> findByStatusEqualsAndTeamIdOrderByDueDate(Integer status, long team_id);
+	public List<Todo> findByStatusEqualsAndUserTeamIdOrderByDueDate(Integer status, long team_id);
 	
-	public List<Todo> findByStatusLessThanAndTeamIdOrderByDueDate(Integer status, long team_id);
+	public List<Todo> findByStatusLessThanAndUserTeamIdOrderByDueDate(Integer status, long team_id);
 
 	public List<Todo> findAllByOrderByDueDate();
 	

@@ -19,14 +19,17 @@ public class TodoSpecifications {
 	public static Specification<Todo> userIdIs(Long userId) {
 		return (root, query, cb) -> {
 			Join<Todo, User> userJoin = root.join("user", JoinType.INNER);
-			return cb.equal(userJoin.get("id"), userId);
+            Join<User, Team> grandChildUserJoin = userJoin.join("team", JoinType.LEFT);
+
+			return cb.equal(grandChildUserJoin.get("id"), userId);
 		};
 	}
 	
 	public static Specification<Todo> teamIdIs(Long teamId) {
 		return (root, query, cb) -> {
-			Join<Todo, Team> userJoin = root.join("team", JoinType.INNER);
-			return cb.equal(userJoin.get("id"), teamId);
+			Join<Todo, User> userJoin = root.join("user", JoinType.INNER);
+            Join<User, Team> grandChildUserJoin = userJoin.join("team", JoinType.LEFT);
+			return cb.equal(grandChildUserJoin.get("id"), teamId);
 		};
 	}
 

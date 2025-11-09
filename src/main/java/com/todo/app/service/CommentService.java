@@ -9,7 +9,7 @@ import com.todo.app.repository.CommentRepository;
 @Service
 public class CommentService {
 	@Autowired 
-	CommentRepository commentRepository;
+	private CommentRepository commentRepository;
 	
 	public void add(Comment comment) {
 		commentRepository.save(comment);

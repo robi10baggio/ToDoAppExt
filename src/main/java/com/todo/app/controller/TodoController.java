@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.todo.app.entity.Comment;
-import com.todo.app.entity.Team;
 import com.todo.app.entity.Todo;
 import com.todo.app.entity.User;
 import com.todo.app.form.CommentForm;
@@ -31,7 +28,6 @@ import com.todo.app.form.TodoForm;
 import com.todo.app.form.TodoSearchForm;
 import com.todo.app.model.Account;
 import com.todo.app.service.CommentService;
-import com.todo.app.service.TeamService;
 import com.todo.app.service.TodoService;
 import com.todo.app.service.UserService;
 
@@ -39,22 +35,16 @@ import com.todo.app.service.UserService;
 @RequestMapping("/todo")
 public class TodoController {
 	@Autowired
-	HttpSession session;
+	private Account account;
 	
 	@Autowired
-	Account account;
+	private TodoService todoService;
 	
 	@Autowired
-	TodoService todoService;
-	
+	private UserService userService;
+
 	@Autowired
-	UserService userService;
-	
-	@Autowired
-	TeamService teamService;
-	
-	@Autowired
-	CommentService commentService;
+	private CommentService commentService;
 
 	private static Map<Integer, String> statusMenumap = new HashMap<>();
     static {
@@ -83,8 +73,7 @@ public class TodoController {
 			form.setStatus(todo.getStatus());
 			form.setUserId(todo.getUser().getId());
 			form.setUserName(todo.getUser().getUserName());
-			form.setTeamId(todo.getTeam().getId());
-			form.setTeamName(todo.getTeam().getTeamName());
+			form.setTeamName(todo.getUser().getTeam().getTeamName());
 			
 			form.setDueDate(todo.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			List<CommentForm> commForms = new ArrayList<>();
@@ -112,8 +101,7 @@ public class TodoController {
 			form.setStatus(todo.getStatus());
 			form.setUserId(todo.getUser().getId());
 			form.setUserName(todo.getUser().getUserName());
-			form.setTeamId(todo.getTeam().getId());
-			form.setTeamName(todo.getTeam().getTeamName());
+			form.setTeamName(todo.getUser().getTeam().getTeamName());
 			
 			form.setDueDate(todo.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			List<CommentForm> commForms = new ArrayList<>();
@@ -139,8 +127,10 @@ public class TodoController {
 			TodoForm todoForm, 
 			TodoSearchForm todoSearchForm,
 			Model model) {
-		List<Todo> list = todoService.selectIncomplete(account.getTeamId());
-		List<Todo> doneList = todoService.selectComplete(account.getTeamId());
+		User user = userService.findById(account.getUserId());
+    	Long teamId = user.getTeam().getId();
+		List<Todo> list = todoService.selectIncomplete(teamId);
+		List<Todo> doneList = todoService.selectComplete(teamId);
 		updateList(list, doneList, model);
 		
 		return "Todo-list";
@@ -156,8 +146,10 @@ public class TodoController {
 
 		//バリデーションチェック
 		if (bindingResult.hasErrors()) {
-			List<Todo> list = todoService.selectIncomplete(account.getTeamId());
-			List<Todo> doneList = todoService.selectComplete(account.getTeamId());
+			User user = userService.findById(account.getUserId());
+	    	Long teamId = user.getTeam().getId();
+			List<Todo> list = todoService.selectIncomplete(teamId);
+			List<Todo> doneList = todoService.selectComplete(teamId);
 			updateList(list, doneList, model);
 			return "Todo-list";
 		}
@@ -166,10 +158,8 @@ public class TodoController {
 		todo.setDueDate(LocalDate.parse(todoForm.getDueDate()));
 		todo.setStatus(0);
 		User user = userService.findById(account.getUserId()); 
-		Team team = teamService.findById(account.getTeamId());
 
 		todo.setUser(user);
-		todo.setTeam(team);
 		todoService.add(todo);
 		
 		return "redirect:/todo/list";
@@ -188,10 +178,8 @@ public class TodoController {
 		
 		todo.setStatus(todoForm.getStatus());
 		User user = userService.findById(account.getUserId()); 
-		Team team = teamService.findById(account.getTeamId());
 
 		todo.setUser(user);
-		todo.setTeam(team);
 		todoService.update(todo);
 		return "redirect:/todo/list";
 	}
@@ -218,8 +206,11 @@ public class TodoController {
 			}
 		}
 		todoSearchForm.setUserId(userId);
-		List<Todo> list = todoService.searchIncomplete(account.getTeamId(), todoSearchForm);
-		List<Todo> doneList = todoService.searchComplete(account.getTeamId(), todoSearchForm);
+		
+		User user = userService.findById(account.getUserId());
+    	Long teamId = user.getTeam().getId();
+		List<Todo> list = todoService.searchIncomplete(teamId, todoSearchForm);
+		List<Todo> doneList = todoService.searchComplete(teamId, todoSearchForm);
 		updateList(list, doneList, model);
 	    
 		return "Todo-list";

@@ -34,11 +34,7 @@ public class Todo {
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
-	
-	@ManyToOne
-	@JoinColumn(name="team_id")
-	private Team team;
-	
+
 	@OneToMany
 	@JoinColumn(name="todo_id")
 	private List<Comment> comments;

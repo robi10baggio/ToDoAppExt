@@ -20,7 +20,7 @@ import com.todo.app.repository.TodoRepository;
 public class TodoService {
 	
 	@Autowired
-	TodoRepository todoRepository;
+	private TodoRepository todoRepository;
 	
 	public List<Todo> searchIncomplete(Long teamId,TodoSearchForm form) {
 	    // 検索条件をもとにクエリを構築
@@ -88,11 +88,11 @@ public class TodoService {
 	}
 
 	public List<Todo> selectIncomplete(long team_id) {
-		return todoRepository.findByStatusLessThanAndTeamIdOrderByDueDate(2, team_id);
+		return todoRepository.findByStatusLessThanAndUserTeamIdOrderByDueDate(2, team_id);
 	}
 
 	public List<Todo> selectComplete(long team_id) {
-		return todoRepository.findByStatusEqualsAndTeamIdOrderByDueDate(2, team_id);
+		return todoRepository.findByStatusEqualsAndUserTeamIdOrderByDueDate(2, team_id);
 	}
 
 	public void add(Todo todo) {
