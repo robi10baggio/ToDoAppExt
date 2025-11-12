@@ -20,6 +20,9 @@
 				<button class="search" type="submit">検索</button>
 			</form>
 		</div>
+		<h2>
+			<a th:href="@{/todo/add}">新規タスク登録</a>
+		</h2>
 	  <h1>📋 未完了のタスク</h1>
 	  <div th:unless="${#lists.isEmpty(todos)}">
 		  <table border="1" class="todo">
@@ -45,7 +48,7 @@
 						</select>
 					</td>
 				    <td>
-						<input type="text" name="taskContent" th:value="*{taskContent}" />
+						<textarea name="taskContent" th:text="*{taskContent}" rows="5" cols="40"></textarea>
 					</td>
 					<td th:text="*{teamName}" /></td>
 					<td th:text="*{userName}" /></td>
@@ -108,7 +111,8 @@
 							</select>
 						</td>
 					    <td>
-							<input type="text" name="taskContent" th:value="*{taskContent}" style="text-decoration:line-through"/>
+							<textarea name="taskContent" th:text="*{taskContent}" style="text-decoration:line-through" rows="5" cols="40"></textarea>
+
 						</td>
 						<td th:text="*{teamName}" /></td>
 						<td th:text="*{userName}" /></td>
@@ -132,24 +136,7 @@
 			  </table>
 		  	</div>
 		</div>
-		<div>	
-	  		<h3>新しいタスクを追加</h3>
-		  	<table>
-				<form method="post" th:action="@{/todo/add}" th:object="${todoForm}">
-					<tr>
-						<th>タイトル</th>
-						<td><input type="text" th:field="*{taskContent}" /><span th:errors="*{taskContent}" th:class="error"></span></td>
-					</tr>
-					<tr>
-						<th>期日</th>
-				    	<td><input type="date" th:field="*{dueDate} "/><span th:errors="*{dueDate}" th:class="error"></span></td>
-					</tr>
-					<tr><td><button>追加</button></td></tr>
-			  </form>
-			</table>
-		</div>
-		<main>	
-	</body>
+	</main>	
 	<footer>
   		<a href="/logout">ログアウト</a>
   	</footer>
