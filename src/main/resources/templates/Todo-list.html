@@ -13,7 +13,7 @@
 	<main>
 		<div class="search">
 			<h1>タスク検索</h1>
-			<form th:action="@{/todo/search}" th:object="${todoSearchForm}" method="post">
+			<form th:action="@{/todo/search}" th:object="${taskSearchForm}" method="post">
 				<label>キーワード: <input type="text" th:field="*{keyword}" /></label><br/>
 				<label>担当者: <input type="text" th:field="*{userName}" /></label><br/>
 				<label>期限: <input type="date" th:field="*{dueDateFrom}" /> ～ <input type="date" th:field="*{dueDateTo}" /></label><br/>

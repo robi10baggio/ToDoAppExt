@@ -19,8 +19,8 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column(name="todo_id")
-	private Long todoId;
+	@Column(name="task_id")
+	private Long taskId;
 	
 	private String	comment;
 	

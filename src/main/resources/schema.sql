@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS teams CASCADE ;
 DROP TABLE IF EXISTS users CASCADE ;
-DROP TABLE IF EXISTS todos CASCADE ;
+DROP TABLE IF EXISTS tasks CASCADE ;
 DROP TABLE IF EXISTS comments CASCADE ;
 
 CREATE TABLE teams(
@@ -17,18 +17,17 @@ CREATE TABLE users(
 );
 
 
-CREATE TABLE todos(
+CREATE TABLE tasks(
 	id 				SERIAL PRIMARY KEY,
 	task_content 	varchar(200) NOT NULL,
 	status	 		int default 0,
 	due_date 		date  NOT NULL,
-	user_id int 	REFERENCES users(id),
-	team_id int  	REFERENCES teams(id)
+	user_id int 	REFERENCES users(id)
 );
 
 CREATE TABLE comments(
 	id 				SERIAL PRIMARY KEY,
-	todo_id			int 	REFERENCES todos(id),
+	task_id			int 	REFERENCES tasks(id),
 	comment 		varchar(200) NOT NULL,
 	post_date 		date  NOT NULL,
 	user_id 		int 	REFERENCES users(id)

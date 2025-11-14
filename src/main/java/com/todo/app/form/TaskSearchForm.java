@@ -3,7 +3,7 @@ package com.todo.app.form;
 import lombok.Data;
 
 @Data
-public class TodoSearchForm {
+public class TaskSearchForm {
 	private String keyword;
 	private Long userId;
 	private String userName;

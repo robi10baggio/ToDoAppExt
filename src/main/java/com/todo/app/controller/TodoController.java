@@ -21,14 +21,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.todo.app.entity.Comment;
-import com.todo.app.entity.Todo;
+import com.todo.app.entity.Task;
 import com.todo.app.entity.User;
 import com.todo.app.form.CommentForm;
-import com.todo.app.form.TodoForm;
-import com.todo.app.form.TodoSearchForm;
+import com.todo.app.form.TaskForm;
+import com.todo.app.form.TaskSearchForm;
 import com.todo.app.model.Account;
 import com.todo.app.service.CommentService;
-import com.todo.app.service.TodoService;
+import com.todo.app.service.TaskService;
 import com.todo.app.service.UserService;
 
 @Controller
@@ -38,7 +38,7 @@ public class TodoController {
 	private Account account;
 	
 	@Autowired
-	private TodoService todoService;
+	private TaskService taskService;
 	
 	@Autowired
 	private UserService userService;
@@ -63,21 +63,21 @@ public class TodoController {
 		return this.account;
     }
     
-    private void updateList(List<Todo> list, List<Todo> doneList, Model model) {
-		List<TodoForm> forms = new ArrayList<>();
-		for (Todo todo: list) {
+    private void updateList(List<Task> list, List<Task> doneList, Model model) {
+		List<TaskForm> forms = new ArrayList<>();
+		for (Task task: list) {
 			// Entityから表示用のFormに変換
-			TodoForm form = new TodoForm();
-			form.setId(todo.getId());
-			form.setTaskContent(todo.getTaskContent());
-			form.setStatus(todo.getStatus());
-			form.setUserId(todo.getUser().getId());
-			form.setUserName(todo.getUser().getUserName());
-			form.setTeamName(todo.getUser().getTeam().getTeamName());
+			TaskForm form = new TaskForm();
+			form.setId(task.getId());
+			form.setTaskContent(task.getTaskContent());
+			form.setStatus(task.getStatus());
+			form.setUserId(task.getUser().getId());
+			form.setUserName(task.getUser().getUserName());
+			form.setTeamName(task.getUser().getTeam().getTeamName());
 			
-			form.setDueDate(todo.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			form.setDueDate(task.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			List<CommentForm> commForms = new ArrayList<>();
-			List<Comment>comments = todo.getComments();
+			List<Comment>comments = task.getComments();
 			for (Comment comment:comments) {
 			
 				CommentForm commForm = new CommentForm();
@@ -92,20 +92,20 @@ public class TodoController {
 		}
 		model.addAttribute("todos",forms);
 		
-		List<TodoForm> doneForms = new ArrayList<>();
-		for (Todo todo:doneList) {
+		List<TaskForm> doneForms = new ArrayList<>();
+		for (Task task:doneList) {
 			// Entityから表示用のFormに変換
-			TodoForm form = new TodoForm();
-			form.setId(todo.getId());
-			form.setTaskContent(todo.getTaskContent());
-			form.setStatus(todo.getStatus());
-			form.setUserId(todo.getUser().getId());
-			form.setUserName(todo.getUser().getUserName());
-			form.setTeamName(todo.getUser().getTeam().getTeamName());
+			TaskForm form = new TaskForm();
+			form.setId(task.getId());
+			form.setTaskContent(task.getTaskContent());
+			form.setStatus(task.getStatus());
+			form.setUserId(task.getUser().getId());
+			form.setUserName(task.getUser().getUserName());
+			form.setTeamName(task.getUser().getTeam().getTeamName());
 			
-			form.setDueDate(todo.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			form.setDueDate(task.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			List<CommentForm> commForms = new ArrayList<>();
-			List<Comment>comments = todo.getComments();
+			List<Comment>comments = task.getComments();
 			for (Comment comment:comments) {
 			
 				CommentForm commForm = new CommentForm();
@@ -123,28 +123,28 @@ public class TodoController {
     }
     
 	@GetMapping("/list")
-	public String list(
-			TodoForm todoForm, 
-			TodoSearchForm todoSearchForm,
+	public String showListPage(
+			TaskForm taskForm, 
+			TaskSearchForm todoSearchForm,
 			Model model) {
 		User user = userService.findById(account.getUserId());
     	Long teamId = user.getTeam().getId();
-		List<Todo> list = todoService.selectIncomplete(teamId);
-		List<Todo> doneList = todoService.selectComplete(teamId);
+		List<Task> list = taskService.selectIncomplete(teamId);
+		List<Task> doneList = taskService.selectComplete(teamId);
 		updateList(list, doneList, model);
 		
 		return "Todo-list";
 	}
 	
 	@GetMapping("/add")
-	public String addForm(TodoForm todoForm, Model model) {
+	public String showAddTaskForm(TaskForm taskForm, Model model) {
 		return "Todo-add";
 	}
 	
 	@PostMapping("/add")
-	public String add(
-			@Validated TodoForm todoForm,
-			TodoSearchForm todoSearchForm,
+	public String addTask(
+			@Validated TaskForm todoForm,
+			TaskSearchForm todoSearchForm,
 			BindingResult bindingResult,
 			RedirectAttributes redirectAttribute,
 			Model model) {
@@ -153,83 +153,83 @@ public class TodoController {
 		if (bindingResult.hasErrors()) {
 			User user = userService.findById(account.getUserId());
 	    	Long teamId = user.getTeam().getId();
-			List<Todo> list = todoService.selectIncomplete(teamId);
-			List<Todo> doneList = todoService.selectComplete(teamId);
+			List<Task> list = taskService.selectIncomplete(teamId);
+			List<Task> doneList = taskService.selectComplete(teamId);
 			updateList(list, doneList, model);
 			return "Todo-list";
 		}
-		Todo todo = new Todo();
-		todo.setTaskContent(todoForm.getTaskContent());
-		todo.setDueDate(LocalDate.parse(todoForm.getDueDate()));
-		todo.setStatus(0);
+		Task task = new Task();
+		task.setTaskContent(todoForm.getTaskContent());
+		task.setDueDate(LocalDate.parse(todoForm.getDueDate()));
+		task.setStatus(0);
 		User user = userService.findById(account.getUserId()); 
 
-		todo.setUser(user);
-		todoService.add(todo);
+		task.setUser(user);
+		taskService.add(task);
 		
 		return "redirect:/todo/list";
 	}
 
 	@PostMapping("/update/{id}")
-	public String update(
+	public String updateTask(
 			@PathVariable Long id, 
-			@Validated TodoForm todoForm,
-			TodoSearchForm todoSearchForm) {
+			@Validated TaskForm taskForm,
+			TaskSearchForm taskSearchForm) {
 
-		Todo todo = new Todo();
-		todo.setId(id);
-		todo.setTaskContent(todoForm.getTaskContent());
-		todo.setDueDate(LocalDate.parse(todoForm.getDueDate()));
+		Task task = new Task();
+		task.setId(id);
+		task.setTaskContent(taskForm.getTaskContent());
+		task.setDueDate(LocalDate.parse(taskForm.getDueDate()));
 		
-		todo.setStatus(todoForm.getStatus());
+		task.setStatus(taskForm.getStatus());
 		User user = userService.findById(account.getUserId()); 
 
-		todo.setUser(user);
-		todoService.update(todo);
+		task.setUser(user);
+		taskService.update(task);
 		return "redirect:/todo/list";
 	}
 	
 	@PostMapping("/delete/{id}")
-	public String delete(@PathVariable Long id) {
-		todoService.delete(id);
+	public String deleteTask(@PathVariable Long id) {
+		taskService.delete(id);
 		return "redirect:/todo/list";
 	}
 	
 	
 	// 検索実行
 	@PostMapping("/search")
-	public String searchTodos(
-			TodoForm todoForm, 
-			@Validated TodoSearchForm todoSearchForm, 
+	public String searchTasks(
+			TaskForm taskForm, 
+			@Validated TaskSearchForm taskSearchForm, 
 			Model model) {
 		Long userId = null;
-		if (!todoSearchForm.getUserName().isEmpty()) { 
-			User user = userService.findByUserName(todoSearchForm.getUserName());
+		if (!taskSearchForm.getUserName().isEmpty()) { 
+			User user = userService.findByUserName(taskSearchForm.getUserName());
 		
 			if (user != null) {
 				userId = user.getId();
 			}
 		}
-		todoSearchForm.setUserId(userId);
+		taskSearchForm.setUserId(userId);
 		
 		User user = userService.findById(account.getUserId());
     	Long teamId = user.getTeam().getId();
-		List<Todo> list = todoService.searchIncomplete(teamId, todoSearchForm);
-		List<Todo> doneList = todoService.searchComplete(teamId, todoSearchForm);
+		List<Task> list = taskService.searchIncomplete(teamId, taskSearchForm);
+		List<Task> doneList = taskService.searchComplete(teamId, taskSearchForm);
 		updateList(list, doneList, model);
 	    
 		return "Todo-list";
 	}
 	
-	// 検索実行
+	// コメント追加処理
 	@PostMapping("/comment-add/{id}")
-	public String commentAdd(
+	public String Addcomment(
 			@PathVariable Long id, 
 			@RequestParam String comment, Model model) {
 		
 		Comment commentObj = new Comment();
 		commentObj.setComment(comment);
-		commentObj.setTodoId(id);
+		commentObj.setTaskId(id);
 		commentObj.setUserId(account.getUserId());
 		commentObj.setPostDate(LocalDate.now());
 		
