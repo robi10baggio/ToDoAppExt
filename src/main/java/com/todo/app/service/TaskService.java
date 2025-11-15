@@ -29,7 +29,7 @@ public class TaskService {
 	    if (form.getKeyword() != null && !form.getKeyword().isEmpty()) {
 	    	specs.add(TaskSpecifications.taskContains(form.getKeyword()));
 	    }
-	    if (form.getUserId() != null) {
+	    if (form.getUserId() != -1) {
 	    	specs.add(TaskSpecifications.userIdIs(form.getUserId()));
 	    }
 	    specs.add(TaskSpecifications.teamIdIs(teamId));
@@ -59,7 +59,7 @@ public class TaskService {
 	    if (form.getKeyword() != null && !form.getKeyword().isEmpty()) {
 	    	specs.add(TaskSpecifications.taskContains(form.getKeyword()));
 	    }
-	    if (form.getUserId() != null) {
+	    if (form.getUserId() != -1) {
 	    	specs.add(TaskSpecifications.userIdIs(form.getUserId()));
 	    }
 	    specs.add(TaskSpecifications.teamIdIs(teamId));

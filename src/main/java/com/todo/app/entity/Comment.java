@@ -1,6 +1,6 @@
 package com.todo.app.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,8 +24,8 @@ public class Comment {
 	
 	private String	comment;
 	
-	@Column(name="post_date")
-	private LocalDate postDate;	
+	@Column(name="post_date_time")
+	private LocalDateTime postDateTime;	
 	
 	@Column(name="user_id")
 	private	   Long userId;

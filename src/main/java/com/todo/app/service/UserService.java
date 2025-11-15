@@ -1,5 +1,7 @@
 package com.todo.app.service;
 
+import java.util.List;
+
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,11 @@ public class UserService {
 	public User findByUserName(String userName) {
 		return loginRepository.findByUserName(userName);
 	}
+	
+	public List<User> findByTeamId(Long teamId) {
+		return loginRepository.findByTeamId(teamId);
+	}
+	
 	
 	@Transactional
 	public void regist(User user) {

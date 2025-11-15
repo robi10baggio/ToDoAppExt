@@ -19,9 +19,8 @@ public class TaskSpecifications {
 	public static Specification<Task> userIdIs(Long userId) {
 		return (root, query, cb) -> {
 			Join<Task, User> userJoin = root.join("user", JoinType.INNER);
-            Join<User, Team> grandChildUserJoin = userJoin.join("team", JoinType.LEFT);
-
-			return cb.equal(grandChildUserJoin.get("id"), userId);
+            
+			return cb.equal(userJoin.get("id"), userId);
 		};
 	}
 	

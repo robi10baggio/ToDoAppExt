@@ -29,6 +29,6 @@ CREATE TABLE comments(
 	id 				SERIAL PRIMARY KEY,
 	task_id			int 	REFERENCES tasks(id),
 	comment 		varchar(200) NOT NULL,
-	post_date 		date  NOT NULL,
+	post_date_time 	TIMESTAMP  NOT NULL,
 	user_id 		int 	REFERENCES users(id)
 );
