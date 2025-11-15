@@ -143,24 +143,18 @@ public class TodoController {
 	
 	@PostMapping("/add")
 	public String addTask(
-			@Validated TaskForm todoForm,
-			TaskSearchForm todoSearchForm,
+			@Validated TaskForm taskForm,
 			BindingResult bindingResult,
 			RedirectAttributes redirectAttribute,
 			Model model) {
 
 		//バリデーションチェック
 		if (bindingResult.hasErrors()) {
-			User user = userService.findById(account.getUserId());
-	    	Long teamId = user.getTeam().getId();
-			List<Task> list = taskService.selectIncomplete(teamId);
-			List<Task> doneList = taskService.selectComplete(teamId);
-			updateList(list, doneList, model);
-			return "Todo-list";
+			return "Todo-add";
 		}
 		Task task = new Task();
-		task.setTaskContent(todoForm.getTaskContent());
-		task.setDueDate(LocalDate.parse(todoForm.getDueDate()));
+		task.setTaskContent(taskForm.getTaskContent());
+		task.setDueDate(LocalDate.parse(taskForm.getDueDate()));
 		task.setStatus(0);
 		User user = userService.findById(account.getUserId()); 
 
@@ -173,8 +167,7 @@ public class TodoController {
 	@PostMapping("/update/{id}")
 	public String updateTask(
 			@PathVariable Long id, 
-			@Validated TaskForm taskForm,
-			TaskSearchForm taskSearchForm) {
+			@Validated TaskForm taskForm) {
 
 		Task task = new Task();
 		task.setId(id);
