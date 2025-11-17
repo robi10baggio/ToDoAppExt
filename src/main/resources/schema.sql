@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS comments CASCADE ;
 
 CREATE TABLE teams(
 	id 			SERIAL PRIMARY KEY,
+	description	varchar(100),
 	team_name 	varchar(40) NOT NULL
 );
 
@@ -13,6 +14,7 @@ CREATE TABLE users(
 	user_id 	varchar(40)  UNIQUE NOT NULL,
 	user_name 	varchar(40)  NOT NULL,
 	password 	varchar(40)  NOT NULL,
+	role 		int 		  default 0 NOT NULL,
 	team_id int  REFERENCES teams(id)
 );
 

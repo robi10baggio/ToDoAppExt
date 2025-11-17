@@ -19,6 +19,14 @@ public class UserService {
 		return loginRepository.findByUserIdAndPassword(userName, password);
 	}
 	
+	public List<User> findAll() {
+		return loginRepository.findAll();
+	}
+	
+	public List<User> findAllByOrderById() {
+		return loginRepository.findAllByOrderById();
+	}
+	
 	public User findById(Long id) {
 		return loginRepository.findById(id).orElse(null);
 	}
@@ -36,4 +44,15 @@ public class UserService {
 	public void regist(User user) {
 		loginRepository.save(user);
 	}
+	
+	@Transactional
+	public void update(User user) {
+		loginRepository.save(user);
+	}
+	
+	@Transactional
+	public void delete(long id) {
+		loginRepository.deleteById(id);
+	}
+	
 }

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>管理者画面</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+  <header>
+  <h1>チーム一覧</h1>
+  </header>
+  <body>
+	<main>
+		<h2>
+			<a th:href="@{/admin/teams/add-team}">新規チーム登録</a>|<a th:href="@{/admin/users/users-dashboard}">メンバー管理</a>
+		</h2>
+		<h1>チーム一覧</h1>
+			<div th:unless="${#lists.isEmpty(teamList)}">
+				<table border="1" class="admin-team">
+					<tr>
+						<th>チーム名</th>
+						<th>説明</th>
+						<th>メンバー一覧</th>
+						<th>更新</th>
+						<th>削除</th>
+					</tr>
+					<tr th:each="teamForm : ${teamList}" th:object="${teamForm}">
+                        <form th:action="@{/admin/teams/update-team/{id}(id=*{id})}" method="post">
+                            <td><input type="text" name="teamName" th:value="*{teamName}"><span th:errors="*{teamName}" th:class="error"></span></td>
+                            <td><textarea name="description" th:text="*{description}" rows="5" cols="40"></textarea><span th:errors="*{description}" th:class="error"></span> </td>
+                            <td>
+                                <ul>
+                                    <li th:each="member : *{members}" th:text="${member.userName}"></li>
+                                </ul>       
+                            </td>
+                            <td>
+                             	<button type="submit">更新</button>
+                            </td>
+                        </form>
+                        <td>
+                            <form th:action="@{/admin/teams/delete-team/{id}(id=*{id})}" method="post">
+                           		<button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
+                         	</form>
+                        </td>
+					
+				</table>
+				<span th:text="${deleteError}" th:class="error"></span>
+			</div>
+	</main>
+   </body>
+	<footer>
+  		<a href="/admin/logout">ログアウト</a>
+  	</footer>
+</body>
+</html>

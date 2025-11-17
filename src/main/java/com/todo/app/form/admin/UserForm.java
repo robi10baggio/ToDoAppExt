@@ -1,4 +1,4 @@
-package com.todo.app.form;
+package com.todo.app.form.admin;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -7,7 +7,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class RegisterForm {
+public class UserForm {
+	private Long id;
+	
 	@NotEmpty
 	@Size(max = 40, message = "{0}は{1}文字以上で入力してください。")
 	@Email(message = "{0}はメールアドレスの形式で入力してください。")
@@ -20,7 +22,9 @@ public class RegisterForm {
 	@Size(min = 5, max = 40, message = "{0}は{1}文字以上{2}文字以下で入力してください。")
 	private String password;
 	
-	private Integer teamId;
+	private Long teamId;
+	
+	private Integer role;
 	
 	@Size(min = 5, max = 40, message = "{0}は{1}文字以上{2}文字以下で入力してください。")
 	private String checkPassword;

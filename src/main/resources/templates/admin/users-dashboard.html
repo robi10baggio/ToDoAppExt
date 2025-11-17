@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>管理者画面</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+  <header>
+  <h1>メンバー一覧</h1>
+  </header>
+  <body>
+	<main>
+		<h2>
+			<a th:href="@{/admin/users/add-user}">メンバー登録</a>|<a th:href="@{/admin/teams/teams-dashboard}">チーム管理</a>
+		</h2>
+		<h1>メンバー一覧</h1>
+			<div th:unless="${#lists.isEmpty(userList)}">
+				<table border="1" class="admin-team">
+					<tr>
+						<th>ユーザID</th>
+						<th>氏名</th>
+						<th>役割</th>
+						<th>チーム</th>
+						<th>更新</th>
+						<th>削除</th>
+					</tr>
+					<tr th:each="userForm : ${userList}" th:object="${userForm}">
+                        <form th:action="@{/admin/users/update-user/{id}(id=*{id})}" method="post">
+							<td><input type="text" name="userId" th:value="*{userId}"><span th:errors="*{userId}" th:class="error"></span></td>
+                            <td><input type="text" name="userName" th:value="*{userName}"><span th:errors="*{userName}" th:class="error"></span></td>
+							<td>
+								<select id="role" name="role">
+									<option th:each="role : ${roleMap}"
+										th:value="${role.key}"
+										th:text="${role.value}"
+										th:selected="${role.key == userForm.role}">
+									</option>
+								</select>
+							</td>
+							<td>
+								<select id="teamId" name="teamId">
+									<option th:each="tm : ${teamList}"
+										th:value="${tm.id}"
+										th:text="${tm.teamName}"
+										th:selected="${tm.id == userForm.teamId}">
+									</option>
+								</select>
+							</td>
+                            <td>
+                             	<button type="submit">更新</button>
+                            </td>
+                        </form>
+                        <td>
+                            <form th:action="@{/admin/users/delete-user/{id}(id=*{id})}" method="post">
+                           		<button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
+                         	</form>
+                        </td>
+					
+				</table>
+				<span th:text="${deleteError}" th:class="error"></span>
+			</div>
+	</main>
+   </body>
+	<footer>
+  		<a href="/admin/logout">ログアウト</a>
+  	</footer>
+</body>
+</html>

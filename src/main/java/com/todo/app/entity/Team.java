@@ -19,6 +19,7 @@ public class Team {
 	
 	@Column(name="team_name") 
 	private String teamName;
+	
+	private String description;
 
 }
-
