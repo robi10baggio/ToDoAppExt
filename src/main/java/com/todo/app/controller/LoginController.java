@@ -1,29 +1,20 @@
 package com.todo.app.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.todo.app.entity.Team;
 import com.todo.app.entity.User;
 import com.todo.app.form.LoginForm;
-import com.todo.app.form.RegisterForm;
 import com.todo.app.model.Account;
-import com.todo.app.service.TeamService;
 import com.todo.app.service.UserService;
 
 @Controller
@@ -37,20 +28,7 @@ public class LoginController {
 	
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private TeamService teamService;
 
-	@ModelAttribute("teamMenu")
-    public Map<Integer, String> getTeamsMenu() {
-		Map<Integer, String> teamMap = new HashMap<>();
-		List<Team> teams = teamService.findAll();
-		for (Team team:teams) {
-			teamMap.put((int) team.getId(), team.getTeamName());
-		}
-		return teamMap;
-    }
-	
 	// ログイン画面を表示
 	@GetMapping({ "/", "/login", "/logout" })
 	public String showLoginPage(
@@ -89,42 +67,5 @@ public class LoginController {
 
 		// 「/todo」へのリダイレクト
 		return "redirect:/todo/list";
-	}
-	
-	@GetMapping("/regist")
-	public String showRegistForm(
-			RegisterForm registerForm,
-			Model model) {
-		return "regist";
-		
-	}
-	
-	@PostMapping("/regist")
-	public String registUser(
-			@Validated RegisterForm registerForm,
-			BindingResult bindingResult,
-			RedirectAttributes redirectAttribute,
-			Model model) {
-		if (bindingResult.hasErrors()) {
-			return "regist";
-		}
-		if (!registerForm.getPassword().equals(registerForm.getCheckPassword())) {
-			model.addAttribute("message", "パスワードが一致しません。");
-			return "regist";
-		}
-		User user = new User();
-		user.setUserId(registerForm.getUserId());
-		user.setUserName(registerForm.getUserName());
-		user.setPassword(registerForm.getPassword());
-		Team team = teamService.findById((long)registerForm.getTeamId());
-		user.setTeam(team);
-		try {
-			userService.regist(user);
-		} catch (DataIntegrityViolationException e) {
-			model.addAttribute("message", "既にユーザIDは登録されています。");
-			return "regist";
-		}
-		return "redirect:/login";
-		
 	}
 }

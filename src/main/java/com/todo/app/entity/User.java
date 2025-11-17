@@ -27,6 +27,12 @@ public class User {
 	
 	private String password;
 	
+	private int role;
+	
+	public boolean isAdmin() {
+		return this.role == 1;
+	}
+	
 	@ManyToOne
 	@JoinColumn(name="team_id")
 	private Team team;

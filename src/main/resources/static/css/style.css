@@ -63,6 +63,14 @@ select {
   box-sizing: border-box;
 }
 
+
+textarea { 
+	width: 90%;
+	margin: 10px 0;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
 /* ボタンのスタイル */
 button {
   width: 80%;
@@ -106,6 +114,29 @@ table.todo th {
 }
 
 table.todo tr:nth-child(even) { 
+	background-color: #f9f9f9; 
+}
+
+table.admin-team { 
+	width: 100%; 
+	border-collapse: collapse; 
+	background-color: #fff; 
+	margin-bottom: 40px; 
+}
+
+table.admin-team th , table.admin-team td{ 
+	padding: 12px;
+	border: 1px solid #ccc;
+	text-align: left;
+	vertical-align: top;
+}
+
+table.admin-team th {
+	background-color: #0078D4;
+	color: white;
+}
+
+table.admin-team tr:nth-child(even) { 
 	background-color: #f9f9f9; 
 }
 
