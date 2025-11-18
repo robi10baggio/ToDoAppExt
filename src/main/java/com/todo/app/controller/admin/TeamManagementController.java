@@ -52,7 +52,7 @@ public class TeamManagementController {
 		
 		model.addAttribute("teamList", tempTeamFormList);
 		// ダッシュボードの表示ロジックをここに実装
-		return "/admin/teams-dashboard";
+		return "/teams-dashboard";
 		
 	}
 	
@@ -99,7 +99,7 @@ public class TeamManagementController {
 		Model model) {
 		//バリデーションチェック
 		if (bindingResult.hasErrors()) {
-			return "/admin/teams-dashboard";
+			return "/teams-dashboard";
 		}		
 		
 		Team team = new Team();
@@ -108,7 +108,7 @@ public class TeamManagementController {
 		team.setDescription(teamForm.getDescription());
 	
 		teamService.update(team);
-		return "redirect:/adminteams-dashboard";
+		return "redirect:/admin/teams-dashboard";
 	}
 	
 	@PostMapping("/delete-team/{id}")
