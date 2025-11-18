@@ -25,7 +25,7 @@
 						<th>削除</th>
 					</tr>
 					<tr th:each="teamForm : ${teamList}" th:object="${teamForm}">
-                        <form th:action="@{/admin/teams/update-team/{id}(id=*{id})}" method="post">
+                        <form th:action="@{/admin/update-team/{id}(id=*{id})}" method="post">
                             <td><input type="text" name="teamName" th:value="*{teamName}"><span th:errors="*{teamName}" th:class="error"></span></td>
                             <td><textarea name="description" th:text="*{description}" rows="5" cols="40"></textarea><span th:errors="*{description}" th:class="error"></span> </td>
                             <td>

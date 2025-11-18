@@ -31,7 +31,7 @@ public class AdminController {
 			LoginForm loginForm,
 			Model model) {
 		// 管理者画面の表示ロジックをここに実装
-		return "/login-admin";
+		return "login-admin";
 	}
 
 	// ログインを実行
@@ -49,7 +49,7 @@ public class AdminController {
 		if (user == null || !user.isAdmin()) {
 			// エラーパラメータのチェック
 			model.addAttribute("message", "ログインしてください");
-			return "admin/login";
+			return "login-admin";
 		}
 		// セッション管理されたアカウント情報に名前をセット
 		admin.setUserId(user.getId());

@@ -78,7 +78,7 @@ public class UserManagementController {
 		List<Team> teamList = teamService.findAllByOrderById();
 		model.addAttribute("teamList", teamList);
 		
-		return "/users-dashboard";
+		return "users-dashboard";
 		
 	}
 
@@ -86,7 +86,7 @@ public class UserManagementController {
 	public String showRegistForm(
 			UserForm userForm,
 			Model model) {
-		return "/add-user";
+		return "add-user";
 	}
 	
 	@PostMapping("/add-user")
@@ -100,7 +100,7 @@ public class UserManagementController {
 		}
 		if (!userForm.getPassword().equals(userForm.getCheckPassword())) {
 			model.addAttribute("message", "パスワードが一致しません。");
-			return "/add-user";
+			return "add-user";
 		}
 		User user = new User();
 		user.setUserId(userForm.getUserId());
@@ -127,7 +127,7 @@ public class UserManagementController {
 		Model model) {
 		//バリデーションチェック
 		if (bindingResult.hasErrors()) {
-			return "/users-dashboard";
+			return "users-dashboard";
 		}		
 		
 		User user = userService.findById(id);
