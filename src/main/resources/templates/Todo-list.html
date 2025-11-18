@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html  xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>TODO管理システム</title>
-<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<meta charset="UTF-8">
+	<title>TODO管理システム</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
   <header>
-  <h1>[<span th:text="${account.teamName}"></span>]のTodoリスト</h1>
+  	<h1>[<span th:text="${account.teamName}"></span>]のTodoリスト</h1>
   </header>
-  <body>
 	<main>
 		<div class="search">
 			<h1>タスク検索</h1>
@@ -19,9 +18,9 @@
 					<select id="userId" name="userId">
 						<option value="-1">--選択しない--</option>
 						<option th:each="user : ${userList}"
-							th:value="${user.key}"
-							th:text="${user.value}"
-							th:selected="${user.key == userId}"
+						        th:value="${user.key}"
+						        th:text="${user.value}"
+						        th:selected="${user.key == userId}">
 						</option>
 					</select>
 				</label><br/>
