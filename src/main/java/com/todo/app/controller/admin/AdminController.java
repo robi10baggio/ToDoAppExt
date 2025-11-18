@@ -57,6 +57,6 @@ public class AdminController {
 		admin.setTeamName(user.getTeam().getTeamName());
 
 		// 「/todo」へのリダイレクト
-		return "redirect:/admin/teams/teams-dashboard";
+		return "redirect:/admin/teams-dashboard";
 	}
 }

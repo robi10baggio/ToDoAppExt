@@ -25,7 +25,7 @@ import com.todo.app.service.TeamService;
 import com.todo.app.service.UserService;
 
 @Controller
-@RequestMapping("/admin/users")
+@RequestMapping("/admin")
 public class UserManagementController {
 
 	@Autowired
@@ -45,7 +45,6 @@ public class UserManagementController {
 	public Map<Integer, String> getRoleMap() {
 		return UserManagementController.roleMap;
 	}
-	
 
 	@ModelAttribute("teamMenu")
     public Map<Integer, String> getTeamsMenu() {
@@ -115,7 +114,7 @@ public class UserManagementController {
 			model.addAttribute("message", "既にユーザIDは登録されています。");
 			return "/admin/add-user";
 		}
-		return "redirect:/admin/users/users-dashboard";
+		return "redirect:/admin/users-dashboard";
 		
 	}
 	
@@ -138,7 +137,7 @@ public class UserManagementController {
 		user.setTeam(teamService.findById(userForm.getTeamId()));
 
 		userService.update(user);
-		return "redirect:/admin/users/users-dashboard";
+		return "redirect:/admin/users-dashboard";
 	}
 	
 	@PostMapping("/delete-user/{id}")
@@ -152,6 +151,6 @@ public class UserManagementController {
 			redirectAttribute.addFlashAttribute("deleteError", "このユーザは削除できません。関連するタスクが存在します。");
 			return "redirect:/admin/users/users-dashboard";
 		}
-		return "redirect:/admin/users/users-dashboard";
+		return "redirect:/admin/users-dashboard";
 	}
 }

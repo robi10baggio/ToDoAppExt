@@ -12,7 +12,7 @@
   <body>
 	<main>
 		<h2>
-			<a th:href="@{/admin/users/add-user}">メンバー登録</a>|<a th:href="@{/admin/teams/teams-dashboard}">チーム管理</a>
+			<a th:href="@{/admin/add-user}">メンバー登録</a>|<a th:href="@{/admin/teams-dashboard}">チーム管理</a>
 		</h2>
 		<h1>メンバー一覧</h1>
 			<div th:unless="${#lists.isEmpty(userList)}">
@@ -26,7 +26,7 @@
 						<th>削除</th>
 					</tr>
 					<tr th:each="userForm : ${userList}" th:object="${userForm}">
-                        <form th:action="@{/admin/users/update-user/{id}(id=*{id})}" method="post">
+                        <form th:action="@{/admin/update-user/{id}(id=*{id})}" method="post">
 							<td><input type="text" name="userId" th:value="*{userId}"><span th:errors="*{userId}" th:class="error"></span></td>
                             <td><input type="text" name="userName" th:value="*{userName}"><span th:errors="*{userName}" th:class="error"></span></td>
 							<td>
@@ -52,7 +52,7 @@
                             </td>
                         </form>
                         <td>
-                            <form th:action="@{/admin/users/delete-user/{id}(id=*{id})}" method="post">
+                            <form th:action="@{/admin/delete-user/{id}(id=*{id})}" method="post">
                            		<button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
                          	</form>
                         </td>

@@ -22,7 +22,7 @@ import com.todo.app.service.TeamService;
 import com.todo.app.service.UserService;
 
 @Controller
-@RequestMapping("/admin/teams")
+@RequestMapping("/admin")
 public class TeamManagementController {
 	
 	@Autowired
@@ -67,6 +67,7 @@ public class TeamManagementController {
 		return "/admin/add-team";
 		
 	}
+	
 	@PostMapping("/add-team")
 	public String addTeam(
 			@Validated TeamForm teamForm,
@@ -85,7 +86,7 @@ public class TeamManagementController {
 		teamService.regist(team);
 		
 		// ダッシュボードの表示ロジックをここに実装
-		return "redirect:/admin/teams/teams-dashboard";
+		return "redirect:/admin/teams-dashboard";
 		
 	}
 	
@@ -98,7 +99,7 @@ public class TeamManagementController {
 		Model model) {
 		//バリデーションチェック
 		if (bindingResult.hasErrors()) {
-			return "/admin/teams/teams-dashboard";
+			return "/admin/teams-dashboard";
 		}		
 		
 		Team team = new Team();
@@ -107,7 +108,7 @@ public class TeamManagementController {
 		team.setDescription(teamForm.getDescription());
 	
 		teamService.update(team);
-		return "redirect:/admin/teams/teams-dashboard";
+		return "redirect:/adminteams-dashboard";
 	}
 	
 	@PostMapping("/delete-team/{id}")
@@ -120,6 +121,6 @@ public class TeamManagementController {
 		} catch (DataIntegrityViolationException e) {
 			redirectAttribute.addFlashAttribute("deleteError", "このチームは削除できません。関連するユーザーが存在します。");
 		}
-		return "redirect:/admin/teams/teams-dashboard";
+		return "redirect:/admin/teams-dashboard";
 	}
 }

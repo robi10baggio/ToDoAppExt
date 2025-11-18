@@ -12,7 +12,7 @@
   <body>
 	<main>
 		<h2>
-			<a th:href="@{/admin/teams/add-team}">新規チーム登録</a>|<a th:href="@{/admin/users/users-dashboard}">メンバー管理</a>
+			<a th:href="@{/admin/add-team}">新規チーム登録</a>|<a th:href="@{/admin/users-dashboard}">メンバー管理</a>
 		</h2>
 		<h1>チーム一覧</h1>
 			<div th:unless="${#lists.isEmpty(teamList)}">
@@ -38,7 +38,7 @@
                             </td>
                         </form>
                         <td>
-                            <form th:action="@{/admin/teams/delete-team/{id}(id=*{id})}" method="post">
+                            <form th:action="@{/admin/delete-team/{id}(id=*{id})}" method="post">
                            		<button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
                          	</form>
                         </td>

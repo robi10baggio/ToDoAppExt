@@ -14,7 +14,7 @@
 			<p><span th:text="${message}" th:class="error"></span></p>
 		</div>
 		<div>
-		  <form th:action="@{/admin/users/add-user}" method="post" th:object="${userForm}">
+		  <form th:action="@{/admin/add-user}" method="post" th:object="${userForm}">
 		    <table>
 		      <tr>
 		        <th>ユーザID</th>
