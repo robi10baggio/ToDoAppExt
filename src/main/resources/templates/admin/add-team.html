@@ -15,19 +15,27 @@
 			<p><span th:text="${message}" th:class="error"></span></p>
 		</div>
 		<div>
-		  	<table>
-			  <form method="post" th:action="@{/admin/teams/add-team}" th:object="${teamForm}">
-				<tr>
-					<th>チーム名:</th>
-					<td><input type="text" th:field="*{teamName} "/><span th:errors="*{teamName}" th:class="error"></span></td>
-				</tr>
-				<tr>
-					<th>チーム説明：</th>
-					<td><textarea th:field="*{description}" rows="5" cols="40"></textarea><span th:errors="*{description}" th:class="error"></span>
-				</tr>
-				<tr><td><button>追加</button></td></tr>
-			  </form>
-			</table>
+			<form method="post" th:action="@{/admin/teams/add-team}" th:object="${teamForm}">
+			  <table>
+			    <tr>
+			      <th>チーム名:</th>
+			      <td>
+			        <input type="text" th:field="*{teamName}" />
+			        <span th:errors="*{teamName}" th:class="error"></span>
+			      </td>
+			    </tr>
+			    <tr>
+			      <th>チーム説明：</th>
+			      <td>
+			        <textarea th:field="*{description}" rows="5" cols="40"></textarea>
+			        <span th:errors="*{description}" th:class="error"></span>
+			      </td>
+			    </tr>
+			    <tr>
+			      <td colspan="2"><button type="submit">追加</button></td>
+			    </tr>
+			  </table>
+			</form>
 		</div>
 	</main>	
 	<footer>
