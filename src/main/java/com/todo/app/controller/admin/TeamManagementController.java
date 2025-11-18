@@ -52,7 +52,7 @@ public class TeamManagementController {
 		
 		model.addAttribute("teamList", tempTeamFormList);
 		// ダッシュボードの表示ロジックをここに実装
-		return "/teams-dashboard";
+		return "teams-dashboard";
 		
 	}
 	
@@ -64,7 +64,7 @@ public class TeamManagementController {
 		List<User> allUsers = userService.findAll();
 		model.addAttribute("allUsers", allUsers);
 		// ダッシュボードの表示ロジックをここに実装
-		return "/admin/add-team";
+		return "add-team";
 		
 	}
 	
@@ -77,7 +77,7 @@ public class TeamManagementController {
 
 		//バリデーションチェック
 		if (bindingResult.hasErrors()) {
-			return "/admin/add-team";
+			return "add-team";
 		}
 		Team team = new Team();
 		team.setTeamName(teamForm.getTeamName());
@@ -99,7 +99,7 @@ public class TeamManagementController {
 		Model model) {
 		//バリデーションチェック
 		if (bindingResult.hasErrors()) {
-			return "/teams-dashboard";
+			return "teams-dashboard";
 		}		
 		
 		Team team = new Team();
