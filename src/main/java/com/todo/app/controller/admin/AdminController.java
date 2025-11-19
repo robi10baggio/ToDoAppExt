@@ -42,7 +42,7 @@ public class AdminController {
 		RedirectAttributes redirectAttribute,
 		Model model) {
 		if (bindingResult.hasErrors()) {
-			return "/admin/login";
+			return "login";
 		}
 		User user = userService.loginAuth(loginForm.getUserId(), loginForm.getPassword());
 			

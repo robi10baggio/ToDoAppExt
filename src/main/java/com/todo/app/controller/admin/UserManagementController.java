@@ -96,7 +96,7 @@ public class UserManagementController {
 			RedirectAttributes redirectAttribute,
 			Model model) {
 		if (bindingResult.hasErrors()) {
-			return "/add-user";
+			return "add-user";
 		}
 		if (!userForm.getPassword().equals(userForm.getCheckPassword())) {
 			model.addAttribute("message", "パスワードが一致しません。");
