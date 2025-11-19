@@ -14,7 +14,7 @@ public class TeamForm {
 	private Long id;
 	
 	@NotEmpty
-	@Size(max = 20, min = 1, message = "{0}は{1}文字以上{2}文字以下で入力してください。")
+	@Size(min = 1, max = 20, message = "{0}は{1}文字以内{2}文字以上で入力してください。")
 	private String teamName;
 	
 	private String description;

@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class TaskSearchForm {
-	@Size(max = 200, message = "{0}は{1}文字以下で入力してください。")
+	@Size(max = 200, message = "{0}は{1}文字以内で入力してください。")
 	private String keyword;
 	private Long userId;
 	private Integer status;
