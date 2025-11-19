@@ -13,6 +13,6 @@ public class LoginForm {
 	@Email(message = "{0}はメールアドレスの形式で入力してください。")
 	private String userId;
 	
-	@Size(min = 5, max = 40, message = "{0}は{1}文字以上{2}文字以下で入力してください。")
+	@Size(max = 40, min = 5, message = "{0}は{1}文字以上{2}文字以下で入力してください。")
 	private String password;
 }

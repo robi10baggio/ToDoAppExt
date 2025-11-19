@@ -19,13 +19,13 @@ public class UserForm {
 	@Size(max = 40, message = "{0}は{1}文字以上で入力してください。")
 	private String userName;
 	
-	@Size(min = 5, max = 40, message = "{0}は{1}文字以上{2}文字以下で入力してください。")
+	@Size(max = 40, min = 5, message = "{0}は{1}文字以上{2}文字以下で入力してください。")
 	private String password;
 	
 	private Long teamId;
 	
 	private Integer role;
 	
-	@Size(min = 5, max = 40, message = "{0}は{1}文字以上{2}文字以下で入力してください。")
+	@Size(max = 40, min = 5,  message = "{0}は{1}文字以上{2}文字以下で入力してください。")
 	private String checkPassword;
 }
