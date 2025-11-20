@@ -65,6 +65,7 @@ public class LoginController {
 		// セッション管理されたアカウント情報に名前をセット
 		account.setUserId(user.getId());
 		account.setUserName(user.getUserName());
+		account.setRole(user.getRole());
 		account.setTeamName(user.getTeam().getTeamName());
 
 		// 「/todo」へのリダイレクト

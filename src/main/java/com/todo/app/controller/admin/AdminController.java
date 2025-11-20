@@ -20,7 +20,7 @@ import com.todo.app.service.UserService;
 public class AdminController {
 
 	@Autowired
-	private Account admin;
+	private Account account;
 	
 	@Autowired
 	private UserService userService;
@@ -52,9 +52,10 @@ public class AdminController {
 			return "login-admin";
 		}
 		// セッション管理されたアカウント情報に名前をセット
-		admin.setUserId(user.getId());
-		admin.setUserName(user.getUserName());
-		admin.setTeamName(user.getTeam().getTeamName());
+		account.setUserId(user.getId());
+		account.setRole(user.getRole());
+		account.setUserName(user.getUserName());
+		account.setTeamName(user.getTeam().getTeamName());
 
 		// 「/todo」へのリダイレクト
 		return "redirect:/admin/teams-dashboard";

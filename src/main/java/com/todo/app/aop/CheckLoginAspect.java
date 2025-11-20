@@ -33,7 +33,7 @@ public class CheckLoginAspect {
 	}
 	
 	// 未ログインの場合管理者ログインページにリダイレクト
-	@Around("execution(* com.todo.app.admin.controller.*ManagementController.*(..))")
+	@Around("execution(* com.todo.app.controller.admin.*ManagementController.*(..))")
 	public Object checkAdminLogin(ProceedingJoinPoint jp) throws Throwable {
 
 		if (account == null || account.getUserName() == null
