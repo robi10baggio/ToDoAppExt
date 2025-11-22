@@ -109,7 +109,7 @@
 					<th>更新</th>
 					<th>削除</th>
 				</tr>
-				<tr th:each="todo : ${doneTodos}" >
+				<tr th:each="todo : ${doneTodos}" th:object="${todo}">
 					<td>
 					<form method="post" th:action="@{/todo/update/{id}(id=*{id})}" th:object="${todo}">
 						<select id="status" name="status">
