@@ -35,7 +35,7 @@ public class TeamManagementController {
 	public String showDashboard(
 			TeamForm teamForm,
 			Model model) {
-		List<Team> teamList = teamService.findAll();
+		List<Team> teamList = teamService.findAllByOrderById();
 		List<TeamForm> tempTeamFormList = new ArrayList<>();
 		
 		for (Team team : teamList) {

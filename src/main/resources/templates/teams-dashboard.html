@@ -17,33 +17,40 @@
 		<h1>チーム一覧</h1>
 			<div th:unless="${#lists.isEmpty(teamList)}">
 				<table border="1" class="admin-team">
-					<tr>
-						<th>チーム名</th>
-						<th>説明</th>
-						<th>メンバー一覧</th>
-						<th>更新</th>
-						<th>削除</th>
-					</tr>
-					<tr th:each="teamForm : ${teamList}" th:object="${teamForm}">
-                        <form th:action="@{/admin/update-team/{id}(id=*{id})}" method="post">
-                            <td><input type="text" name="teamName" th:value="*{teamName}"><span th:errors="*{teamName}" th:class="error"></span></td>
-                            <td><textarea name="description" th:text="*{description}" rows="5" cols="40"></textarea><span th:errors="*{description}" th:class="error"></span> </td>
-                            <td>
-                                <ul>
-                                    <li th:each="member : *{members}" th:text="${member.userName}"></li>
-                                </ul>       
-                            </td>
-                            <td>
-                             	<button type="submit">更新</button>
-                            </td>
-                        </form>
-                        <td>
-                            <form th:action="@{/admin/delete-team/{id}(id=*{id})}" method="post">
-                           		<button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
-                         	</form>
-                        </td>
-					</tr>
+				  <tr>
+				    <th>チーム名</th>
+				    <th>説明</th>
+				    <th>メンバー一覧</th>
+				    <th>更新</th>
+				    <th>削除</th>
+				  </tr>
+				  <tr th:each="teamForm : ${teamList}" th:object="${teamForm}">
+				    <td>
+				      <form th:action="@{/admin/update-team/{id}(id=*{id})}" method="post">
+				        <input type="text" th:field="*{teamName}" />
+				        <span th:errors="*{teamName}" th:class="error"></span>
+				    </td>
+				    <td>
+				        <textarea th:field="*{description}" rows="5" cols="40"></textarea>
+				        <span th:errors="*{description}" th:class="error"></span>
+				    </td>
+				    <td>
+				        <ul>
+				          <li th:each="member : *{members}" th:text="${member.userName}"></li>
+				        </ul>
+				    </td>
+				    <td>
+				        <button type="submit">更新</button>
+				      </form>
+				    </td>
+				    <td>
+				      <form th:action="@{/admin/delete-team/{id}(id=*{id})}" method="post">
+				        <button type="submit" class="delete-btn" onclick="return confirm('本当に削除しますか？');">削除</button>
+				      </form>
+				    </td>
+				  </tr>
 				</table>
+
 				<span th:text="${deleteError}" th:class="error"></span>
 			</div>
 	</main>

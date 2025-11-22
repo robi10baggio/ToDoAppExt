@@ -26,31 +26,35 @@
 						<th>削除</th>
 					</tr>
 					<tr th:each="userForm : ${userList}" th:object="${userForm}">
-                        <form th:action="@{/admin/update-user/{id}(id=*{id})}" method="post">
-							<td><input type="text" name="userId" th:value="*{userId}"><span th:errors="*{userId}" th:class="error"></span></td>
-                            <td><input type="text" name="userName" th:value="*{userName}"><span th:errors="*{userName}" th:class="error"></span></td>
-							<td>
-								<select id="role" name="role">
-									<option th:each="role : ${roleMap}"
-										th:value="${role.key}"
-										th:text="${role.value}"
-										th:selected="${role.key == userForm.role}">
-									</option>
-								</select>
-							</td>
-							<td>
-								<select id="teamId" name="teamId">
-									<option th:each="tm : ${teamList}"
-										th:value="${tm.id}"
-										th:text="${tm.teamName}"
-										th:selected="${tm.id == userForm.teamId}">
-									</option>
-								</select>
-							</td>
-                            <td>
-                             	<button type="submit">更新</button>
-                            </td>
-                        </form>
+						<td>
+						<form th:action="@{/admin/update-user/{id}(id=*{id})}" method="post">
+							<input type="text" name="userId" th:value="*{userId}"><span th:errors="*{userId}" th:class="error"></span>
+						</td>
+                     	<td>
+							<input type="text" name="userName" th:value="*{userName}"><span th:errors="*{userName}" th:class="error"></span>
+						</td>
+						<td>
+							<select id="role" name="role">
+								<option th:each="role : ${roleMap}"
+									th:value="${role.key}"
+									th:text="${role.value}"
+									th:selected="${role.key == userForm.role}">
+								</option>
+							</select>
+						</td>
+						<td>
+							<select id="teamId" name="teamId">
+								<option th:each="tm : ${teamList}"
+									th:value="${tm.id}"
+									th:text="${tm.teamName}"
+									th:selected="${tm.id == userForm.teamId}">
+								</option>
+							</select>
+						</td>
+                        <td>
+                             <button type="submit">更新</button>
+							 </form>
+                       	</td>
                         <td>
                             <form th:action="@{/admin/delete-user/{id}(id=*{id})}" method="post">
                            		<button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
