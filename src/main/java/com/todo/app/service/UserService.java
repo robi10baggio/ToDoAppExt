@@ -18,11 +18,7 @@ public class UserService {
 	public User loginAuth(String userName, String password) {
 		return loginRepository.findByUserIdAndPassword(userName, password);
 	}
-	
-	public List<User> findAll() {
-		return loginRepository.findAll();
-	}
-	
+
 	public List<User> findAllByOrderById() {
 		return loginRepository.findAllByOrderById();
 	}

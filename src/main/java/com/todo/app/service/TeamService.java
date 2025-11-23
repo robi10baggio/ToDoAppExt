@@ -15,9 +15,7 @@ public class TeamService {
 	@Autowired 
 	private TeamRepository teamRepository;
 	
-	public List<Team> findAll() {
-		return teamRepository.findAllByOrderById();
-	}
+
 	public List<Team> findAllByOrderById() {
 		return teamRepository.findAllByOrderById();
 	}
