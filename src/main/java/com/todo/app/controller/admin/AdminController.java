@@ -1,5 +1,7 @@
 package com.todo.app.controller.admin;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.todo.app.entity.User;
@@ -18,7 +21,9 @@ import com.todo.app.service.UserService;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-
+	@Autowired
+	private HttpSession session;
+	
 	@Autowired
 	private Account account;
 	
@@ -29,8 +34,14 @@ public class AdminController {
 	@GetMapping({ "/", "/login", "/logout" })
 	public String showAdminPage(
 			LoginForm loginForm,
+			@RequestParam(name = "error", defaultValue = "") String error,
 			Model model) {
-		// 管理者画面の表示ロジックをここに実装
+			// 管理者画面の表示ロジックをここに実装
+			// セッション情報を全てクリアする
+			session.invalidate();
+			if (error.equals("notLoggedIn")) {
+				model.addAttribute("message", "ログインしてください");
+			}
 		return "login-admin";
 	}
 
