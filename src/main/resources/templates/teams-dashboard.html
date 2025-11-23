@@ -12,7 +12,7 @@
   <body>
 	<main>
 		<h2>
-			<a th:href="@{/admin/add-team}">新規チーム登録</a>|<a th:href="@{/admin/users-dashboard}">メンバー管理</a>
+			<a th:href="@{/admin/regist-team}">新規チーム登録</a>|<a th:href="@{/admin/users-dashboard}">メンバー管理</a>
 		</h2>
 		<h1>チーム一覧</h1>
 			<div th:unless="${#lists.isEmpty(teamList)}">
@@ -27,11 +27,11 @@
 				  <tr th:each="teamForm : ${teamList}" th:object="${teamForm}">
 				    <td>
 				      <form th:action="@{/admin/update-team/{id}(id=*{id})}" method="post">
-				        <input type="text" th:field="*{teamName}" />
+				        <input type="text" name="teamName" th:value="*{teamName}" />
 				        <span th:errors="*{teamName}" th:class="error"></span>
 				    </td>
 				    <td>
-				        <textarea th:field="*{description}" rows="5" cols="40"></textarea>
+				        <textarea name="description" th:text="*{description}" rows="5" cols="40"></textarea>
 				        <span th:errors="*{description}" th:class="error"></span>
 				    </td>
 				    <td>

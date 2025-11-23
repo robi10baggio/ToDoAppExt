@@ -12,7 +12,7 @@
   <body>
 	<main>
 		<h2>
-			<a th:href="@{/admin/add-user}">メンバー登録</a>|<a th:href="@{/admin/teams-dashboard}">チーム管理</a>
+			<a th:href="@{/admin/regist-user}">メンバー登録</a>|<a th:href="@{/admin/teams-dashboard}">チーム管理</a>
 		</h2>
 		<h1>メンバー一覧</h1>
 			<div th:unless="${#lists.isEmpty(userList)}">
