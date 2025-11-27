@@ -112,7 +112,7 @@ public class UserManagementController {
 			userService.regist(user);
 		} catch (DataIntegrityViolationException e) {
 			model.addAttribute("message", "既にユーザIDは登録されています。");
-			return "/regist-user";
+			return "regist-user";
 		}
 		return "redirect:/admin/users-dashboard";
 		
